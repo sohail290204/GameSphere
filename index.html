@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c;
+            background-image:
+                linear-gradient(135deg, rgba(26, 32, 44, 0.85) 0%, rgba(79, 70, 229, 0.85) 100%),
+                url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80'); /* Arcade background */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        header h1 {
+            text-shadow: 0 0 16px #6366f1, 0 2px 8px #000;
+        }
+        .game-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            background: rgba(31, 41, 55, 0.95);
+        }
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 16px 32px rgba(99, 102, 241, 0.25), 0 4px 16px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+        .game-card svg {
+            filter: drop-shadow(0 0 8px #6366f1);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem 0 1rem 0;
+            color: #c7d2fe;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <header class="w-full text-center py-8">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
+            GameSphere
+        </h1>
+        <p class="mt-4 text-xl text-gray-400">
+            A collection of fun, lightweight games.
+        </p>
+    </header>
+
+    <main class="w-full mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 py-12">
+
+        <a href="whack-a-mole.html" class="game-card block bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Whack-a-Mole</h2>
+                <p class="text-gray-400">
+                    Test your reflexes!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32" viewBox="0 0 64 64" fill="none">
+                    <ellipse cx="32" cy="48" rx="20" ry="10" fill="#8b5c2b"/>
+                    <circle cx="32" cy="32" r="16" fill="#a97c50"/>
+                    <ellipse cx="24" cy="30" rx="2.5" ry="4" fill="#222"/>
+                    <ellipse cx="40" cy="30" rx="2.5" ry="4" fill="#222"/>
+                    <ellipse cx="32" cy="38" rx="4" ry="2" fill="#eab308"/>
+                    <ellipse cx="32" cy="44" rx="6" ry="2" fill="#fff" opacity="0.5"/>
+                </svg>
+            </div>
+        </a>
+        
+        <!-- New Game Card: Dodge the Blocks -->
+        <a href="Doge_the_Block.html" class="game-card block bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-white mb-2">Dodge the Blocks</h2>
+                <p class="text-gray-400">
+                    Survive the falling blocks!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="5" y="5" width="14" height="14" rx="2" ry="2" fill="#ef4444"/>
+                    <rect x="2" y="2" width="20" height="20" rx="2" ry="2" stroke="#fca5a5" stroke-width="2" fill="none"/>
+                </svg>
+            </div>
+        </a>
+
+        <!-- The rest of the placeholder games -->
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 3</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 4</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 5</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 6</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 7</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 8</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 9</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 10</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 11</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 12</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 13</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 14</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 15</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 16</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 17</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 18</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 19</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 20</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 21</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 22</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+        
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 23</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 24</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+        <div class="game-card bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 opacity-50 cursor-not-allowed">
+            <div class="p-6">
+                <h2 class="text-3xl font-bold text-white mb-2">Game 25</h2>
+                <p class="text-gray-400">
+                    Coming Soon!
+                </p>
+            </div>
+            <div class="bg-gray-700 h-48 flex items-center justify-center">
+                <span class="text-gray-500 text-3xl font-bold">?</span>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        &copy; 2025 Arcade Hub &mdash; Made with ❤️ for fun!
+    </footer>
+</body>
+
+</html>
