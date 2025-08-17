@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endless Runner</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #94d2bd;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .game-container {
+            position: relative;
+            background-color: #3b3b64;
+            border: 5px solid #4a4a75;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .game-ui {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .score-display, .game-over-message {
+            font-size: 1.5em;
+            color: #ffc300;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            min-width: 150px;
+        }
+
+        .game-over-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            display: none;
+        }
+
+        .game-over-message h2 {
+            font-size: 2em;
+            color: #ff5e62;
+            margin-bottom: 10px;
+        }
+
+        .game-over-message p {
+            font-size: 1.2em;
+            color: #e0e0e0;
+        }
+
+        .button {
+            padding: 12px 24px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            background: linear-gradient(135deg, #4b3e83, #6a5acd);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        #start-button, #restart-button {
+            display: block;
+        }
+
+        .message-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #3b3b64;
+            border: 2px solid #6a5acd;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .message-box p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #e0e0e0;
+        }
+        
+        .message-box button {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Endless Runner</h1>
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div class="game-over-message" id="game-over-screen">
+            <h2>Game Over!</h2>
+            <p>Your Score: <span id="final-score">0</span></p>
+            <button id="restart-button" class="button">Restart</button>
+        </div>
+    </div>
+    <div class="game-ui">
+        <div class="score-display">
+            Score: <span id="score">0</span>
+        </div>
+        <button id="start-button" class="button">Start Game</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            const scoreDisplay = document.getElementById('score');
+            const finalScoreDisplay = document.getElementById('final-score');
+            const startButton = document.getElementById('start-button');
+            const restartButton = document.getElementById('restart-button');
+            const gameOverScreen = document.getElementById('game-over-screen');
+            
+            let messageBox = null;
+
+            // Set up canvas dimensions to be responsive
+            function resizeCanvas() {
+                canvas.width = Math.min(window.innerWidth - 40, 700);
+                canvas.height = Math.min(window.innerHeight - 200, 300);
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // Game variables
+            let gameRunning = false;
+            let score = 0;
+            let totalTime = 0;
+            let lastTime = 0;
+            let gameSpeed = 2;
+            let gravity = 0.5;
+            let obstacles = [];
+            let obstacleSpawnInterval = 1000;
+            let lastObstacleSpawn = 0;
+
+            const player = {
+                x: 50,
+                y: canvas.height - 50,
+                size: 30,
+                color: '#4CAF50',
+                vy: 0,
+                isJumping: false
+            };
+            
+            // Replace these URLs with your preferred sprite images
+            const dinoSprite = new Image();
+            dinoSprite.src = 'https://raw.githubusercontent.com/codewithsadee/assets/main/dino.png'; // Example dino sprite
+
+            const cactusSprite = new Image();
+            cactusSprite.src = 'https://raw.githubusercontent.com/codewithsadee/assets/main/cactus.png'; // Example cactus sprite
+
+
+            // Custom message box function
+            function createMessageBox(message) {
+                if (messageBox) {
+                    messageBox.remove();
+                }
+                const box = document.createElement('div');
+                box.className = 'message-box';
+                const p = document.createElement('p');
+                p.innerHTML = message;
+                const button = document.createElement('button');
+                button.className = 'button';
+                button.textContent = 'OK';
+                button.addEventListener('click', () => {
+                    box.style.display = 'none';
+                });
+                box.appendChild(p);
+                box.appendChild(button);
+                document.body.appendChild(box);
+                messageBox = box;
+                return box;
+            }
+
+            // Draw the player
+            function drawPlayer() {
+                if (dinoSprite.complete && dinoSprite.naturalWidth > 0) {
+                    ctx.drawImage(dinoSprite, player.x, player.y, player.size, player.size);
+                } else {
+                    ctx.fillStyle = player.color;
+                    ctx.fillRect(player.x, player.y, player.size, player.size);
+                }
+            }
+
+            // Draw obstacles
+            function drawObstacles() {
+                obstacles.forEach(obstacle => {
+                    if (cactusSprite.complete && cactusSprite.naturalWidth > 0) {
+                        ctx.drawImage(cactusSprite, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                    } else {
+                        ctx.fillStyle = '#ff5e62';
+                        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+                    }
+                });
+            }
+
+            // Update player
+            function updatePlayer() {
+                player.vy += gravity;
+                player.y += player.vy;
+                
+                // Ground collision
+                if (player.y > canvas.height - player.size) {
+                    player.y = canvas.height - player.size;
+                    player.isJumping = false;
+                    player.vy = 0;
+                }
+            }
+
+            // Jump action
+            function jump() {
+                if (!player.isJumping) {
+                    player.isJumping = true;
+                    player.vy = -16;
+                }
+            }
+
+            // Handle keyboard and touch input
+            document.addEventListener('keydown', (e) => {
+                if (gameRunning && e.code === 'Space') {
+                    jump();
+                }
+            });
+
+            canvas.addEventListener('click', () => {
+                if (gameRunning) {
+                    jump();
+                }
+            });
+
+            // Update obstacles
+            function updateObstacles(deltaTime) {
+                // Move obstacles
+                obstacles = obstacles.map(obstacle => ({
+                    ...obstacle,
+                    x: obstacle.x - gameSpeed
+                }));
+                // Remove obstacles that have passed the screen
+                obstacles = obstacles.filter(obstacle => obstacle.x + obstacle.width > 0);
+            }
+
+            // Check for collisions
+            function checkCollisions() {
+                for (const obstacle of obstacles) {
+                    if (
+                        player.x < obstacle.x + obstacle.width &&
+                        player.x + player.size > obstacle.x &&
+                        player.y < obstacle.y + obstacle.height &&
+                        player.y + player.size > obstacle.y
+                    ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // Spawn obstacles
+            function spawnObstacle() {
+                const height = Math.random() * (canvas.height / 3) + 20;
+                const width = Math.random() * 15 + 15;
+                const x = canvas.width;
+                const y = canvas.height - height;
+                obstacles.push({ x, y, width, height });
+            }
+
+            // Main game loop
+            function gameLoop(timestamp) {
+                if (!gameRunning) return;
+
+                const deltaTime = timestamp - lastTime;
+                lastTime = timestamp;
+                totalTime += deltaTime;
+                
+                // Update score and game speed
+                score = Math.floor(totalTime / 100);
+                scoreDisplay.textContent = score;
+                gameSpeed = 2 + (score * 0.01);
+
+                // Spawn obstacles
+                if (timestamp - lastObstacleSpawn > obstacleSpawnInterval) {
+                    spawnObstacle();
+                    obstacleSpawnInterval = Math.max(500, obstacleSpawnInterval - (score * 0.1));
+                    lastObstacleSpawn = timestamp;
+                }
+
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw
+                updatePlayer();
+                updateObstacles(deltaTime);
+                drawPlayer();
+                drawObstacles();
+
+                // Check for game over
+                if (checkCollisions()) {
+                    endGame();
+                    return;
+                }
+
+                requestAnimationFrame(gameLoop);
+            }
+            
+            // End the game
+            function endGame() {
+                gameRunning = false;
+                finalScoreDisplay.textContent = score;
+                gameOverScreen.style.display = 'block';
+                startButton.style.display = 'none';
+            }
+
+            // Start the game
+            function startGame() {
+                gameRunning = true;
+                score = 0;
+                totalTime = 0;
+                lastTime = 0;
+                gameSpeed = 2;
+                obstacles = [];
+                obstacleSpawnInterval = 1000;
+                lastObstacleSpawn = 0;
+                player.y = canvas.height - player.size;
+                player.isJumping = false;
+                player.vy = 0;
+                
+                gameOverScreen.style.display = 'none';
+                startButton.style.display = 'none';
+
+                if (messageBox) {
+                    messageBox.remove();
+                    messageBox = null;
+                }
+
+                requestAnimationFrame(gameLoop);
+            }
+
+            // Event listeners
+            startButton.addEventListener('click', startGame);
+            restartButton.addEventListener('click', startGame);
+            
+            // Initial setup
+            ctx.fillStyle = '#2c2c54';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            
+            createMessageBox("Press the **space bar** to jump!");
+            messageBox.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
